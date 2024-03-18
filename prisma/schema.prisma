@@ -13,10 +13,10 @@ datasource db {
   url       = env("DATABASE_URL")
   schemas   = ["public", "auth"]
 }
-model tester {
-  id        BigInt   @id @default(autoincrement())
-  email     String?
-  avatarUrl String? 
-  usernames  String
+
+model alphase {
+  id        Int   @id @default(autoincrement())
+  title     String? @db.VarChar(300)
+  description String?  @db.VarChar(300)
   @@schema("public")
 }
