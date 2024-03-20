@@ -1,33 +1,43 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAlphaDto } from './dto/create-alpha.dto';
-import { UpdateAlphaDto } from './dto/update-alpha.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Injectable } from '@nestjs/common'
+import { CreateAlphaDto } from './dto/create-alpha.dto'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class AlphasService {
   constructor(private prisma: PrismaService) {}
-
-  create(createAlphaDto: CreateAlphaDto) {
-    return 'This action adds a new alpha';
+  async create(createAlphaDto: CreateAlphaDto) {
+    return await this.prisma.alphase.create({
+      data: {
+        title: createAlphaDto.title,
+        description: createAlphaDto.description,
+      },
+    })
   }
-
-  findAll() {
-    return `This action returns all alphas`;
-  }
-
   async findAllTesters() {
-    return await this.prisma.alphase.findMany();
+    return await this.prisma.alphase.findMany()
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} alpha`;
+  async findOne(id: number) {
+    return await this.prisma.alphase.findUnique({
+      where: {
+        id: Number(id),
+      },
+    })
   }
-
-  update(id: number, updateAlphaDto: UpdateAlphaDto) {
-    return `This action updates a #${id} alpha`;
+  async remove(id: number) {
+    return await this.prisma.alphase.delete({
+      where: {
+        id: Number(id),
+      },
+    })
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} alpha`;
+  async updateTitle(id: number, title: string) {
+    return await this.prisma.alphase.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        title,
+      },
+    })
   }
 }

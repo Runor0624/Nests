@@ -6,10 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-} from '@nestjs/common';
-import { AlphasService } from './alphas.service';
-import { CreateAlphaDto } from './dto/create-alpha.dto';
-import { UpdateAlphaDto } from './dto/update-alpha.dto';
+} from '@nestjs/common'
+import { AlphasService } from './alphas.service'
+import { CreateAlphaDto } from './dto/create-alpha.dto'
 
 @Controller('alphas')
 export class AlphasController {
@@ -17,31 +16,24 @@ export class AlphasController {
 
   @Post()
   create(@Body() createAlphaDto: CreateAlphaDto) {
-    return this.alphasService.create(createAlphaDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.alphasService.findAll();
+    return this.alphasService.create(createAlphaDto)
   }
 
   @Get('testers')
   findAllTesters() {
-    return this.alphasService.findAllTesters();
+    return this.alphasService.findAllTesters()
   }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.alphasService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    return await this.alphasService.findOne(id)
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAlphaDto: UpdateAlphaDto) {
-    return this.alphasService.update(+id, updateAlphaDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.alphasService.remove(+id);
+  async remove(@Param('id') id: number) {
+    return await this.alphasService.remove(id)
+  }
+  @Patch(':id')
+  async updateTitle(@Param('id') id: number, @Body('title') title: string) {
+    await this.alphasService.updateTitle(id, title)
+    return { success: true }
   }
 }
